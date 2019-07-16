@@ -5,6 +5,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Date :2019-07-13. This class process User Model model class
@@ -38,6 +42,32 @@ public class User implements Serializable {
 
     @Column(name = "user_status")
     private Boolean userStatus;
+
+  /*  @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(name = "user_team", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = { @JoinColumn(name = "team_id") })
+    private Set<Team> teams = new HashSet<>();*/
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "user_team",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "team_id", referencedColumnName = "team_id"))
+    private Set<Team> userTeams = new HashSet<>();
+
+   /* public void addTeams(Team team) {
+        this.userTeams.add(team);
+    }*/
+
+    /*public User(String userName, String userAddress, String userEmail, int userMobile, Date createdDate, Boolean userStatus, Team userTeams) {
+        this.userName = userName;
+        this.userAddress = userAddress;
+        this.userEmail = userEmail;
+        this. userMobile = userMobile;
+        this.createdDate = createdDate;
+        this.userStatus = userStatus;
+        this.userTeams = Stream.of(userTeams).collect(Collectors.toSet());
+        this.userTeams.forEach(x -> x.getUsers().add(this));
+    }*/
 
     public int getUserId() {
         return userId;
@@ -95,4 +125,11 @@ public class User implements Serializable {
         this.userStatus = userStatus;
     }
 
+    public Set<Team> getUserTeams() {
+        return userTeams;
+    }
+
+    public void setUserTeams(Set<Team> userTeams) {
+        this.userTeams = userTeams;
+    }
 }
