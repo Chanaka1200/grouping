@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.gson.Gson;
+import com.org.smartgrouping.model.Team;
 import com.org.smartgrouping.model.User;
 import com.org.smartgrouping.service.UserService;
 import com.org.smartgrouping.util.JsonFileObjectUtil;
@@ -14,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 /**
  * Date :2019-07-13. This class process the User Live crud operation
  * controller class
@@ -41,6 +42,7 @@ public class UserController {
      *
      */
     @RequestMapping(value = "saveUser", method = RequestMethod.POST)
+    @ResponseBody
     public String saveUser(@ModelAttribute User user){
         if (log.isDebugEnabled()) {
             log.debug("UserController saveUser method save and update user");
@@ -56,6 +58,36 @@ public class UserController {
             }
         } catch (Exception e) {
             log.error("error  occurred by saveUser in UserController " + e);
+            saveMsg = "error occurred by" + e;
+        }
+        return saveMsg;
+    }
+    /**
+     * Date :2019-07-16. This method used for save user data wih team data composite table using CrudRepository
+     * in springframework
+     *
+     * @param user team
+     * @return saveMsg
+     * @author Chanaka Bandara
+     *
+     */
+    @RequestMapping(value = "assignUser", method = RequestMethod.POST)
+    @ResponseBody
+    public String assignUser(@ModelAttribute User user, @ModelAttribute Team team){
+        if (log.isDebugEnabled()) {
+            log.debug("UserController assignUser method save and update user and team composite");
+        }
+        String saveMsg = "";
+        Boolean saveStatus = false;
+        try {
+            saveStatus = userService.assignUser(user, team);
+            if (saveStatus) {
+                saveMsg = "Save Success";
+            } else if (!saveStatus) {
+                saveMsg = "Save error";
+            }
+        } catch (Exception e) {
+            log.error("error  occurred by assignUser in UserController " + e);
             saveMsg = "error occurred by" + e;
         }
         return saveMsg;
