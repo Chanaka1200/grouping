@@ -62,6 +62,36 @@ public class RoleController {
         return saveMsg;
     }
     /**
+     * Date :2019-07-18. This method used for delete role data using CrudRepository
+     * in springframework
+     *
+     * @param role
+     * @return saveMsg
+     * @author Chanaka Bandara
+     *
+     */
+    @RequestMapping(value = "deleteRole", method = RequestMethod.POST)
+    @ResponseBody
+    public String deleteRole(@ModelAttribute Role role){
+        if (log.isDebugEnabled()) {
+            log.debug("RoleController deleteRole method delete role");
+        }
+        String saveMsg = "";
+        Boolean saveStatus = false;
+        try {
+            saveStatus = roleService.deleteRole(role);
+            if (saveStatus) {
+                saveMsg = "Delete Success";
+            } else if (!saveStatus) {
+                saveMsg = "Delete error";
+            }
+        } catch (Exception e) {
+            log.error("error  occurred by deleteRole in RoleController " + e);
+            saveMsg = "error occurred by" + e;
+        }
+        return saveMsg;
+    }
+    /**
      * Date :2019-07-16. This method used for get all roles data
      * CrudRepository using springframework
      *

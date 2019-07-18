@@ -63,10 +63,40 @@ public class UserController {
         return saveMsg;
     }
     /**
-     * Date :2019-07-16. This method used for save user data wih team data composite table using CrudRepository
+     * Date :2019-07-18. This method used for delete user data using CrudRepository
      * in springframework
      *
-     * @param user team
+     * @param user
+     * @return saveMsg
+     * @author Chanaka Bandara
+     *
+     */
+    @RequestMapping(value = "deleteUser", method = RequestMethod.POST)
+    @ResponseBody
+    public String deleteUser(@ModelAttribute User user){
+        if (log.isDebugEnabled()) {
+            log.debug("UserController deleteUser method delete user");
+        }
+        String saveMsg = "";
+        Boolean saveStatus = false;
+        try {
+            saveStatus = userService.deleteUser(user);
+            if (saveStatus) {
+                saveMsg = "Delete Success";
+            } else if (!saveStatus) {
+                saveMsg = "Delete error";
+            }
+        } catch (Exception e) {
+            log.error("error  occurred by deleteUser in UserController " + e);
+            saveMsg = "error occurred by" + e;
+        }
+        return saveMsg;
+    }
+    /**
+     * Date :2019-07-18. This method used for assign team and user data using CrudRepository
+     * in springframework
+     *
+     * @param user
      * @return saveMsg
      * @author Chanaka Bandara
      *

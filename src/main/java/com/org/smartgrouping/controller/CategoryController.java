@@ -62,6 +62,36 @@ public class CategoryController {
         return saveMsg;
     }
     /**
+     * Date :2019-07-18. This method used for delete category data using CrudRepository
+     * in springframework
+     *
+     * @param category
+     * @return saveMsg
+     * @author Chanaka Bandara
+     *
+     */
+    @RequestMapping(value = "deleteCategory", method = RequestMethod.POST)
+    @ResponseBody
+    public String deleteCategory(@ModelAttribute Category category){
+        if (log.isDebugEnabled()) {
+            log.debug("CategoryController deleteCategory method delete category");
+        }
+        String saveMsg = "";
+        Boolean saveStatus = false;
+        try {
+            saveStatus = categoryService.deleteCategory(category);
+            if (saveStatus) {
+                saveMsg = "Delete Success";
+            } else if (!saveStatus) {
+                saveMsg = "Delete error";
+            }
+        } catch (Exception e) {
+            log.error("error  occurred by deleteCategory in CategoryController " + e);
+            saveMsg = "error occurred by" + e;
+        }
+        return saveMsg;
+    }
+    /**
      * Date :2019-07-16. This method used for get all categories data
      * CrudRepository using springframework
      *

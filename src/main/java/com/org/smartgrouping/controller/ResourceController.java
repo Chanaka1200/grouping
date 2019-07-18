@@ -62,6 +62,36 @@ public class ResourceController {
         return saveMsg;
     }
     /**
+     * Date :2019-07-18. This method used for delete resource data using CrudRepository
+     * in springframework
+     *
+     * @param resource
+     * @return saveMsg
+     * @author Chanaka Bandara
+     *
+     */
+    @RequestMapping(value = "deleteResource", method = RequestMethod.POST)
+    @ResponseBody
+    public String deleteResource(@ModelAttribute Resource resource){
+        if (log.isDebugEnabled()) {
+            log.debug("ResourceController deleteResource method delete resource");
+        }
+        String saveMsg = "";
+        Boolean saveStatus = false;
+        try {
+            saveStatus = resourceService.deleteResource(resource);
+            if (saveStatus) {
+                saveMsg = "Delete Success";
+            } else if (!saveStatus) {
+                saveMsg = "Delete error";
+            }
+        } catch (Exception e) {
+            log.error("error  occurred by deleteResource in ResourceController " + e);
+            saveMsg = "error occurred by" + e;
+        }
+        return saveMsg;
+    }
+    /**
      * Date :2019-07-16. This method used for get all resources data
      * CrudRepository using springframework
      *

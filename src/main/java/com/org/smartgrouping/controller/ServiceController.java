@@ -62,6 +62,36 @@ public class ServiceController {
         return saveMsg;
     }
     /**
+     * Date :2019-07-18. This method used for delete service data using CrudRepository
+     * in springframework
+     *
+     * @param service
+     * @return saveMsg
+     * @author Chanaka Bandara
+     *
+     */
+    @RequestMapping(value = "deleteService", method = RequestMethod.POST)
+    @ResponseBody
+    public String deleteService(@ModelAttribute Service service){
+        if (log.isDebugEnabled()) {
+            log.debug("ServiceController deleteService method delete service");
+        }
+        String saveMsg = "";
+        Boolean saveStatus = false;
+        try {
+            saveStatus = serviceService.deleteService(service);
+            if (saveStatus) {
+                saveMsg = "Delete Success";
+            } else if (!saveStatus) {
+                saveMsg = "Delete error";
+            }
+        } catch (Exception e) {
+            log.error("error  occurred by deleteService in ServiceController " + e);
+            saveMsg = "error occurred by" + e;
+        }
+        return saveMsg;
+    }
+    /**
      * Date :2019-07-16. This method used for get all services data
      * CrudRepository using springframework
      *

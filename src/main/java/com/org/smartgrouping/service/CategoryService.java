@@ -35,6 +35,24 @@ public class CategoryService {
         return saveStatus;
     }
     /**
+     * deleteCategory method is delete category data
+     *
+     * @param category
+     * @return saveStatus
+     */
+    public Boolean deleteCategory(Category category) {
+        if (log.isDebugEnabled()) {
+            log.debug("CategoryService deleteCategory method calling.");
+        }
+        Boolean saveStatus = false;
+        if (log.isDebugEnabled()) {
+            log.debug("CategoryService deleteCategory method delete category to the database.");
+        }
+        categoryRepository.delete(category);
+        saveStatus = true;
+        return saveStatus;
+    }
+    /**
      * findAllCategories method is get all data in Categories
      *
      * @return allCategories
