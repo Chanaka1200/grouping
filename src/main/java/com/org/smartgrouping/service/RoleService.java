@@ -35,6 +35,24 @@ public class RoleService {
         return saveStatus;
     }
     /**
+     * deleteResource method is delete role data
+     *
+     * @param role
+     * @return saveStatus
+     */
+    public Boolean deleteRole(Role role) {
+        if (log.isDebugEnabled()) {
+            log.debug("RoleService deleteRole method calling.");
+        }
+        Boolean saveStatus = false;
+        if (log.isDebugEnabled()) {
+            log.debug("RoleService deleteRole method delete role to the database.");
+        }
+        roleRepository.delete(role);
+        saveStatus = true;
+        return saveStatus;
+    }
+    /**
      * findAllRoles method is get all data in Roles
      *
      * @return allRoles

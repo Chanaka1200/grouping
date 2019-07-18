@@ -35,6 +35,24 @@ public class ResourceService {
         return saveStatus;
     }
     /**
+     * deleteResource method is delete category data
+     *
+     * @param resource
+     * @return saveStatus
+     */
+    public Boolean deleteResource(Resource resource) {
+        if (log.isDebugEnabled()) {
+            log.debug("ResourceService deleteResource method calling.");
+        }
+        Boolean saveStatus = false;
+        if (log.isDebugEnabled()) {
+            log.debug("ResourceService deleteResource method delete resource to the database.");
+        }
+        resourceRepository.delete(resource);
+        saveStatus = true;
+        return saveStatus;
+    }
+    /**
      * findAllResources method is get all data in Resources
      *
      * @return allResources

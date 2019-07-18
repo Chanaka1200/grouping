@@ -35,6 +35,24 @@ public class ServiceService {
         return saveStatus;
     }
     /**
+     * deleteResource method is delete service data
+     *
+     * @param service
+     * @return saveStatus
+     */
+    public Boolean deleteService(Service service) {
+        if (log.isDebugEnabled()) {
+            log.debug("ServiceService deleteService method calling.");
+        }
+        Boolean saveStatus = false;
+        if (log.isDebugEnabled()) {
+            log.debug("ServiceService deleteService method delete service to the database.");
+        }
+        serviceRepository.delete(service);
+        saveStatus = true;
+        return saveStatus;
+    }
+    /**
      * findAllServices method is get all data in Services
      *
      * @return allServices
@@ -43,4 +61,5 @@ public class ServiceService {
         Iterable<Service> allServices = serviceRepository.findAll();
         return allServices;
     }
+
 }

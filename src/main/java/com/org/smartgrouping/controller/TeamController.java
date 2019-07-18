@@ -59,6 +59,36 @@ public class TeamController {
         return saveMsg;
     }
     /**
+     * Date :2019-07-18. This method used for delete team data using CrudRepository
+     * in springframework
+     *
+     * @param team
+     * @return saveMsg
+     * @author Chanaka Bandara
+     *
+     */
+    @RequestMapping(value = "deleteTeam", method = RequestMethod.POST)
+    @ResponseBody
+    public String deleteTeam(@ModelAttribute Team team){
+        if (log.isDebugEnabled()) {
+            log.debug("TeamController deleteTeam method delete team");
+        }
+        String saveMsg = "";
+        Boolean saveStatus = false;
+        try {
+            saveStatus = teamService.deleteTeam(team);
+            if (saveStatus) {
+                saveMsg = "Delete Success";
+            } else if (!saveStatus) {
+                saveMsg = "Delete error";
+            }
+        } catch (Exception e) {
+            log.error("error  occurred by deleteTeam in TeamController " + e);
+            saveMsg = "error occurred by" + e;
+        }
+        return saveMsg;
+    }
+    /**
      * Date :2019-07-16. This method used for get all teams data
      * CrudRepository using springframework
      *

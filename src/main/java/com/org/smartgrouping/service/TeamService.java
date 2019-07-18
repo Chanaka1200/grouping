@@ -35,6 +35,24 @@ public class TeamService {
         return saveStatus;
     }
     /**
+     * deleteResource method is delete team data
+     *
+     * @param team
+     * @return saveStatus
+     */
+    public Boolean deleteTeam(Team team) {
+        if (log.isDebugEnabled()) {
+            log.debug("TeamService deleteTeam method calling.");
+        }
+        Boolean saveStatus = false;
+        if (log.isDebugEnabled()) {
+            log.debug("TeamService deleteTeam method delete team to the database.");
+        }
+        teamRepository.delete(team);
+        saveStatus = true;
+        return saveStatus;
+    }
+    /**
      * findAllTeam method is get all data in Team
      *
      * @return allTeams

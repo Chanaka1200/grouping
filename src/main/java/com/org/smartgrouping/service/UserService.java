@@ -48,6 +48,12 @@ public class UserService {
         saveStatus = true;
         return saveStatus;
     }
+    /**
+     * assignUser method is compisite date team and user
+     *
+     * @param user
+     * @return userList
+     */
     public Boolean assignUser(User user, Team team) throws Exception {
         if (log.isDebugEnabled()) {
             log.debug("UserService saveUser method calling.");
@@ -76,6 +82,25 @@ public class UserService {
         return saveStatus;
     }
     /**
+     * deleteResource method is delete user data
+     *
+     * @param user
+     * @return saveStatus
+     */
+    public Boolean deleteUser(User user) {
+        if (log.isDebugEnabled()) {
+            log.debug("UserService deleteUser method calling.");
+        }
+        Boolean saveStatus = false;
+        if (log.isDebugEnabled()) {
+            log.debug("UserService deleteUser method delete User.Existing User to the database.");
+        }
+
+        userRepository.delete(user);
+        saveStatus = true;
+        return saveStatus;
+    }
+    /**
      * findAllUser method is find all data in User
      *
      * @return allUser
@@ -84,4 +109,6 @@ public class UserService {
         Iterable<User> allUser = userRepository.findAll();
         return allUser;
     }
+
+
 }
