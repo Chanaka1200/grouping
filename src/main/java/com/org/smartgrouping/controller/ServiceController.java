@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.gson.Gson;
+import com.org.smartgrouping.model.Category;
 import com.org.smartgrouping.model.Service;
 import com.org.smartgrouping.service.ServiceService;
 import com.org.smartgrouping.util.JsonFileObjectUtil;
@@ -42,14 +43,14 @@ public class ServiceController {
      */
     @RequestMapping(value = "saveService", method = RequestMethod.POST)
     @ResponseBody
-    public String saveService(@ModelAttribute Service service){
+    public String saveService(@ModelAttribute Service service, @ModelAttribute Category category){
         if (log.isDebugEnabled()) {
             log.debug("ServiceController saveService method save and update service");
         }
         String saveMsg = "";
         Boolean saveStatus = false;
         try {
-            saveStatus = serviceService.saveService(service);
+            saveStatus = serviceService.saveService(service, category);
             if (saveStatus) {
                 saveMsg = "Save Success";
             } else if (!saveStatus) {

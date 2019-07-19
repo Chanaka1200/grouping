@@ -17,6 +17,10 @@ public class Service implements Serializable {
     @Column(name = "service_status")
     private Boolean serviceStatus;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "category_id")
+    private Category category;
+
     public int getServiceId() {
         return serviceId;
     }
@@ -39,5 +43,13 @@ public class Service implements Serializable {
 
     public void setServiceStatus(Boolean serviceStatus) {
         this.serviceStatus = serviceStatus;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }
