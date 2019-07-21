@@ -21,7 +21,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Chanaka Banadra
  */
-@Controller
+@RestController
+@RequestMapping(path = "/team/")
 public class TeamController {
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
     @Autowired
@@ -37,7 +38,7 @@ public class TeamController {
      * @author Chanaka Bandara
      *
      */
-    @RequestMapping(value = "saveTeam", method = RequestMethod.POST)
+    @RequestMapping(value = "save", method = RequestMethod.POST)
     @ResponseBody
     public String saveTeam(@ModelAttribute Team team){
         if (log.isDebugEnabled()) {
@@ -67,7 +68,7 @@ public class TeamController {
      * @author Chanaka Bandara
      *
      */
-    @RequestMapping(value = "deleteTeam", method = RequestMethod.POST)
+    @RequestMapping(value = "delete", method = RequestMethod.POST)
     @ResponseBody
     public String deleteTeam(@ModelAttribute Team team){
         if (log.isDebugEnabled()) {
@@ -94,13 +95,38 @@ public class TeamController {
      *
      * @author Chanaka Bandara
      */
-    @RequestMapping(value = "findAllTeams", method = RequestMethod.GET)
+    @RequestMapping(value = "findAll", method = RequestMethod.GET)
     public void findAllTeams(HttpServletResponse httpservletResponse, HttpServletRequest httpServletRequest) {
         if (log.isDebugEnabled()) {
             log.debug("TeamController findAllTeams method  get all teams data");
         }
         try {
             Iterable<Team> allTeams = teamService.findAllTeam();
+            String m = new Gson().toJson(allTeams);
+            ObjectMapper mapper = new ObjectMapper();
+            ObjectNode objectNode = new ObjectNode(mapper.getNodeFactory());
+            ArrayNode node = mapper.readValue(m, ArrayNode.class);
+            objectNode.put("data", node);
+            objectNode.put("success", true);
+            jsonFileObject.writeJson(httpservletResponse, objectNode, mapper);
+        } catch (Exception e) {
+            jsonFileObject.writeJsonString(httpservletResponse,
+                    "{\"message\":\"" + e.getMessage() + "\",\"success\":false}");
+        }
+    }
+    /**
+     * Date :2019-07-21. This method used for get all teams data by id
+     * CrudRepository using springframework
+     *
+     * @author Chanaka Bandara
+     */
+    @RequestMapping(value = "findTeamsById", method = RequestMethod.GET)
+    public void findTeamsById(@PathVariable int id, HttpServletResponse httpservletResponse, HttpServletRequest httpServletRequest) {
+        if (log.isDebugEnabled()) {
+            log.debug("TeamController findAllTeams method  get all teams data");
+        }
+        try {
+            Iterable<Team> allTeams = teamService.findTeamById(id);
             String m = new Gson().toJson(allTeams);
             ObjectMapper mapper = new ObjectMapper();
             ObjectNode objectNode = new ObjectNode(mapper.getNodeFactory());

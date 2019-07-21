@@ -12,20 +12,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 /**
  * Date :2019-07-13. This class process the Service Live crud operation
  * controller class
  *
  * @author Chanaka Banadra
  */
-@Controller
+@RestController
+@RequestMapping(path = "/service/")
 public class ServiceController {
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
     @Autowired
@@ -41,7 +40,7 @@ public class ServiceController {
      * @author Chanaka Bandara
      *
      */
-    @RequestMapping(value = "saveService", method = RequestMethod.POST)
+    @RequestMapping(value = "save", method = RequestMethod.POST)
     @ResponseBody
     public String saveService(@ModelAttribute Service service, @ModelAttribute Category category){
         if (log.isDebugEnabled()) {
@@ -71,7 +70,7 @@ public class ServiceController {
      * @author Chanaka Bandara
      *
      */
-    @RequestMapping(value = "deleteService", method = RequestMethod.POST)
+    @RequestMapping(value = "delete", method = RequestMethod.POST)
     @ResponseBody
     public String deleteService(@ModelAttribute Service service){
         if (log.isDebugEnabled()) {
@@ -98,13 +97,38 @@ public class ServiceController {
      *
      * @author Chanaka Bandara
      */
-    @RequestMapping(value = "findAllServices", method = RequestMethod.GET)
+    @RequestMapping(value = "findAll", method = RequestMethod.GET)
     public void findAllServices(HttpServletResponse httpservletResponse, HttpServletRequest httpServletRequest) {
         if (log.isDebugEnabled()) {
             log.debug("ServiceController findAllServices method  get all service data");
         }
         try {
             Iterable<Service> allServices = serviceService.findAllServices();
+            String m = new Gson().toJson(allServices);
+            ObjectMapper mapper = new ObjectMapper();
+            ObjectNode objectNode = new ObjectNode(mapper.getNodeFactory());
+            ArrayNode node = mapper.readValue(m, ArrayNode.class);
+            objectNode.put("data", node);
+            objectNode.put("success", true);
+            jsonFileObject.writeJson(httpservletResponse, objectNode, mapper);
+        } catch (Exception e) {
+            jsonFileObject.writeJsonString(httpservletResponse,
+                    "{\"message\":\"" + e.getMessage() + "\",\"success\":false}");
+        }
+    }
+    /**
+     * Date :2019-07-21. This method used for get all services data by id
+     * CrudRepository using springframework
+     *
+     * @author Chanaka Bandara
+     */
+    @RequestMapping(value = "findServiceById", method = RequestMethod.GET)
+    public void findServicesById(@PathVariable int id, HttpServletResponse httpservletResponse, HttpServletRequest httpServletRequest) {
+        if (log.isDebugEnabled()) {
+            log.debug("ServiceController findServicesById method  get all service data by id");
+        }
+        try {
+            Iterable<Service> allServices = serviceService.findServicesById(id);
             String m = new Gson().toJson(allServices);
             ObjectMapper mapper = new ObjectMapper();
             ObjectNode objectNode = new ObjectNode(mapper.getNodeFactory());

@@ -109,6 +109,14 @@ public class UserService {
         Iterable<User> allUser = userRepository.findAll();
         return allUser;
     }
-
-
+    /**
+     * findAllUser method is find all data in User
+     *
+     * @param id
+     * @return userById
+     */
+    public Iterable<User> findUsersById(int id) {
+        Iterable<User> userById = userRepository.findAllByUserId(id);
+        return userById;
+    }
 }

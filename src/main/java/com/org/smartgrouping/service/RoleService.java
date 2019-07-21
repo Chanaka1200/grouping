@@ -61,4 +61,14 @@ public class RoleService {
         Iterable<Role> allRoles = roleRepository.findAll();
         return allRoles;
     }
+    /**
+     * findRolesById method is get all data in Roles
+     *
+     * @param id
+     * @return rolesById
+     */
+    public Iterable<Role> findRolesById(int id) {
+        Iterable<Role> rolesById = roleRepository.findAllByRoleId(id);
+        return rolesById;
+    }
 }

@@ -5,26 +5,26 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.gson.Gson;
 import com.org.smartgrouping.model.Resource;
+import com.org.smartgrouping.model.Role;
 import com.org.smartgrouping.service.ResourceService;
 import com.org.smartgrouping.util.JsonFileObjectUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 /**
  * Date :2019-07-16. This class process the Resource Live crud operation
  * controller class
  *
  * @author Chanaka Banadra
  */
-@Controller
+@RestController
+@RequestMapping(path = "/resource/")
 public class ResourceController {
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
     @Autowired
@@ -40,7 +40,7 @@ public class ResourceController {
      * @author Chanaka Bandara
      *
      */
-    @RequestMapping(value = "saveResource", method = RequestMethod.POST)
+    @RequestMapping(value = "save", method = RequestMethod.POST)
     @ResponseBody
     public String saveResource(@ModelAttribute Resource resource){
         if (log.isDebugEnabled()) {
@@ -61,6 +61,27 @@ public class ResourceController {
         }
         return saveMsg;
     }
+    @RequestMapping(value = "assign", method = RequestMethod.POST)
+    @ResponseBody
+    public String assignResource(@ModelAttribute Resource resource, @ModelAttribute Role role){
+        if (log.isDebugEnabled()) {
+            log.debug("ResourceController assignResource method assign role to resource");
+        }
+        String saveMsg = "";
+        Boolean saveStatus = false;
+        try {
+            saveStatus = resourceService.assignResource(resource, role);
+            if (saveStatus) {
+                saveMsg = "Save Success";
+            } else if (!saveStatus) {
+                saveMsg = "Save error";
+            }
+        } catch (Exception e) {
+            log.error("error  occurred by saveResource in ResourceController " + e);
+            saveMsg = "error occurred by" + e;
+        }
+        return saveMsg;
+    }
     /**
      * Date :2019-07-18. This method used for delete resource data using CrudRepository
      * in springframework
@@ -70,7 +91,7 @@ public class ResourceController {
      * @author Chanaka Bandara
      *
      */
-    @RequestMapping(value = "deleteResource", method = RequestMethod.POST)
+    @RequestMapping(value = "delete", method = RequestMethod.POST)
     @ResponseBody
     public String deleteResource(@ModelAttribute Resource resource){
         if (log.isDebugEnabled()) {
@@ -97,13 +118,38 @@ public class ResourceController {
      *
      * @author Chanaka Bandara
      */
-    @RequestMapping(value = "findAllResources", method = RequestMethod.GET)
+    @RequestMapping(value = "findAll", method = RequestMethod.GET)
     public void findAllResources(HttpServletResponse httpservletResponse, HttpServletRequest httpServletRequest) {
         if (log.isDebugEnabled()) {
             log.debug("ResourceController findAllResources method  get all role data");
         }
         try {
             Iterable<Resource> allResources = resourceService.findAllResources();
+            String m = new Gson().toJson(allResources);
+            ObjectMapper mapper = new ObjectMapper();
+            ObjectNode objectNode = new ObjectNode(mapper.getNodeFactory());
+            ArrayNode node = mapper.readValue(m, ArrayNode.class);
+            objectNode.put("data", node);
+            objectNode.put("success", true);
+            jsonFileObject.writeJson(httpservletResponse, objectNode, mapper);
+        } catch (Exception e) {
+            jsonFileObject.writeJsonString(httpservletResponse,
+                    "{\"message\":\"" + e.getMessage() + "\",\"success\":false}");
+        }
+    }
+    /**
+     * Date :2019-07-21. This method used for get all resources data by id
+     * CrudRepository using springframework
+     *
+     * @author Chanaka Bandara
+     */
+    @RequestMapping(value = "findResourcesById", method = RequestMethod.GET)
+    public void findResourcesById(@PathVariable int id, HttpServletResponse httpservletResponse, HttpServletRequest httpServletRequest) {
+        if (log.isDebugEnabled()) {
+            log.debug("ResourceController findAllResources method  get all role data");
+        }
+        try {
+            Iterable<Resource> allResources = resourceService.findResourcesById(id);
             String m = new Gson().toJson(allResources);
             ObjectMapper mapper = new ObjectMapper();
             ObjectNode objectNode = new ObjectNode(mapper.getNodeFactory());

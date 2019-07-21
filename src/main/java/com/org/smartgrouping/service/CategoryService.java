@@ -61,4 +61,14 @@ public class CategoryService {
         Iterable<Category> allCategories = categoryRepository.findAll();
         return allCategories;
     }
+    /**
+     * findCategoriesById method is get all data in Categories
+     *
+     * @param id
+     * @return categoriesFindById
+     */
+    public Iterable<Category> findCategoriesById(int id) {
+        Iterable<Category> categoriesFindById = categoryRepository.findAllByCategoryId(id);
+        return categoriesFindById;
+    }
 }

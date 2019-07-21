@@ -43,31 +43,12 @@ public class User implements Serializable {
     @Column(name = "user_status")
     private Boolean userStatus;
 
-  /*  @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    @JoinTable(name = "user_team", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = { @JoinColumn(name = "team_id") })
-    private Set<Team> teams = new HashSet<>();*/
-
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "user_team",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "team_id", referencedColumnName = "team_id"))
     private Set<Team> userTeams = new HashSet<>();
-
-   /* public void addTeams(Team team) {
-        this.userTeams.add(team);
-    }*/
-
-    /*public User(String userName, String userAddress, String userEmail, int userMobile, Date createdDate, Boolean userStatus, Team userTeams) {
-        this.userName = userName;
-        this.userAddress = userAddress;
-        this.userEmail = userEmail;
-        this. userMobile = userMobile;
-        this.createdDate = createdDate;
-        this.userStatus = userStatus;
-        this.userTeams = Stream.of(userTeams).collect(Collectors.toSet());
-        this.userTeams.forEach(x -> x.getUsers().add(this));
-    }*/
 
     public int getUserId() {
         return userId;
