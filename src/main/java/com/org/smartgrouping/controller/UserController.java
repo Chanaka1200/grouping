@@ -10,12 +10,9 @@ import com.org.smartgrouping.service.UserService;
 import com.org.smartgrouping.util.JsonFileObjectUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,7 +22,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Chanaka Banadra
  */
-@Controller
+@RestController
+@RequestMapping(path = "/user/")
 public class UserController {
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
     @Autowired
@@ -41,7 +39,7 @@ public class UserController {
      * @author Chanaka Bandara
      *
      */
-    @RequestMapping(value = "saveUser", method = RequestMethod.POST)
+    @RequestMapping(value = "save", method = RequestMethod.POST)
     @ResponseBody
     public String saveUser(@ModelAttribute User user){
         if (log.isDebugEnabled()) {
@@ -71,7 +69,7 @@ public class UserController {
      * @author Chanaka Bandara
      *
      */
-    @RequestMapping(value = "deleteUser", method = RequestMethod.POST)
+    @RequestMapping(value = "delete", method = RequestMethod.POST)
     @ResponseBody
     public String deleteUser(@ModelAttribute User user){
         if (log.isDebugEnabled()) {
@@ -101,7 +99,7 @@ public class UserController {
      * @author Chanaka Bandara
      *
      */
-    @RequestMapping(value = "assignUser", method = RequestMethod.POST)
+    @RequestMapping(value = "assign", method = RequestMethod.POST)
     @ResponseBody
     public String assignUser(@ModelAttribute User user, @ModelAttribute Team team){
         if (log.isDebugEnabled()) {
@@ -128,13 +126,38 @@ public class UserController {
      *
      * @author Chanaka Bandara
      */
-    @RequestMapping(value = "findAllUsers", method = RequestMethod.GET)
+    @RequestMapping(value = "findAll", method = RequestMethod.GET)
     public void findAllUsers(HttpServletResponse httpservletResponse, HttpServletRequest httpServletRequest) {
         if (log.isDebugEnabled()) {
             log.debug("UserController findAllUsers method  get all users data");
         }
         try {
             Iterable<User> allUsers = userService.findAllUser();
+            String m = new Gson().toJson(allUsers);
+            ObjectMapper mapper = new ObjectMapper();
+            ObjectNode objectNode = new ObjectNode(mapper.getNodeFactory());
+            ArrayNode node = mapper.readValue(m, ArrayNode.class);
+            objectNode.put("data", node);
+            objectNode.put("success", true);
+            jsonFileObject.writeJson(httpservletResponse, objectNode, mapper);
+        } catch (Exception e) {
+            jsonFileObject.writeJsonString(httpservletResponse,
+                    "{\"message\":\"" + e.getMessage() + "\",\"success\":false}");
+        }
+    }
+    /**
+     * Date :2019-07-21. This method used for get all save user data by id
+     * CrudRepository using springframework
+     *
+     * @author Chanaka Bandara
+     */
+    @RequestMapping(value = "findUsersById", method = RequestMethod.GET)
+    public void findUsersById(@PathVariable int id, HttpServletResponse httpservletResponse, HttpServletRequest httpServletRequest) {
+        if (log.isDebugEnabled()) {
+            log.debug("UserController findAllUsers method  get all users data");
+        }
+        try {
+            Iterable<User> allUsers = userService.findUsersById(id);
             String m = new Gson().toJson(allUsers);
             ObjectMapper mapper = new ObjectMapper();
             ObjectNode objectNode = new ObjectNode(mapper.getNodeFactory());

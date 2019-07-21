@@ -1,6 +1,7 @@
 package com.org.smartgrouping.service;
 
 import com.org.smartgrouping.model.Resource;
+import com.org.smartgrouping.model.Role;
 import com.org.smartgrouping.repository.ResourceRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,6 +53,28 @@ public class ResourceService {
         saveStatus = true;
         return saveStatus;
     }
+    public Boolean assignResource(Resource resource, Role role) {
+        if (log.isDebugEnabled()) {
+            log.debug("ResourceService assignResource method calling.");
+        }
+        Boolean saveStatus = false;
+        if (log.isDebugEnabled()) {
+            log.debug("ResourceService assignResource method assign role to resource.");
+        }
+
+        Resource resource1 = new Resource();
+        resource1.setResourceName(resource.getResourceName());
+
+        Role role1 = new Role();
+        role1.setRoleName(role.getRoleName());
+
+        resource1.getRoleResources().add(role1);
+
+        resourceRepository.save(resource1);
+        saveStatus = true;
+        return saveStatus;
+
+    }
     /**
      * findAllResources method is get all data in Resources
      *
@@ -61,5 +84,14 @@ public class ResourceService {
         Iterable<Resource> allResources = resourceRepository.findAll();
         return allResources;
     }
-
+    /**
+     * findResourcesById method is get all data in Resources
+     *
+     * @param id
+     * @return resourcesById
+     */
+    public Iterable<Resource> findResourcesById(int id) {
+        Iterable<Resource> resourcesById = resourceRepository.findAllByResourceId(id);
+        return resourcesById;
+    }
 }

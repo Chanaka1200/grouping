@@ -77,5 +77,14 @@ public class ServiceService {
         Iterable<Service> allServices = serviceRepository.findAll();
         return allServices;
     }
-
+    /**
+     * findServicesById method is get all data in Services
+     *
+     * @param id
+     * @return servicesById
+     */
+    public Iterable<Service> findServicesById(int id) {
+        Iterable<Service> servicesById = serviceRepository.findAllByServiceId(id);
+        return servicesById;
+    }
 }

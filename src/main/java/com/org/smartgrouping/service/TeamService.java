@@ -61,4 +61,14 @@ public class TeamService {
         Iterable<Team> allTeams = teamRepository.findAll();
         return allTeams;
     }
+    /**
+     * findTeamById method is get all data in team by id
+     *
+     * @param id
+     * @return allTeams
+     */
+    public Iterable<Team> findTeamById(int id) {
+        Iterable<Team> teamsById = teamRepository.findAllByTeamId(id);
+        return teamsById;
+    }
 }
