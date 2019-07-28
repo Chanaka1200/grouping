@@ -121,7 +121,7 @@ public class RoleController {
      *
      * @author Chanaka Bandara
      */
-    @RequestMapping(value = "findRolesById", method = RequestMethod.GET)
+    @RequestMapping(value = "findRolesById/{id}", method = RequestMethod.GET)
     public void findRolesById(@PathVariable int id, HttpServletResponse httpservletResponse, HttpServletRequest httpServletRequest) {
         if (log.isDebugEnabled()) {
             log.debug("RoleController findAllRoles method  get all role data");

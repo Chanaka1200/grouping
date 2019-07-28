@@ -121,7 +121,7 @@ public class CategoryController {
      *
      * @author Chanaka Bandara
      */
-    @RequestMapping(value = "findCategoryById", method = RequestMethod.GET)
+    @RequestMapping(value = "findCategoryById/{id}", method = RequestMethod.GET)
     public void findCategoriesById(@PathVariable int id, HttpServletResponse httpservletResponse, HttpServletRequest httpServletRequest) {
         if (log.isDebugEnabled()) {
             log.debug("CategoryController findCategoriesById method  get all categories data by id");

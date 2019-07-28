@@ -41,8 +41,7 @@ public class ServiceService {
         service1.setServiceName(service.getServiceName());
         service1.setServiceStatus(service.getServiceStatus());
 
-        Category category1 = new Category();
-        category1.setCategoryName(category.getCategoryName());
+        Category category1 =  categoryRepository.findById(category.getCategoryId()).get();
 
         service1.setCategory(category1);
         category1.getService().add(service1);

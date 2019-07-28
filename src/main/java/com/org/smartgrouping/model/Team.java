@@ -28,20 +28,8 @@ public class Team implements Serializable {
     @Column(name = "team_status")
     private Boolean teamStatus;
 
-  /*  @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE }, mappedBy = "team")
-    private Set<User> users = new HashSet<>();*/
-
     @ManyToMany(mappedBy = "userTeams")
     Set<User> users = new HashSet<>();
-
-    /*public void addUsers(User user) {
-        this.users.add(user);
-    }*/
-   /* public Team(String teamName, Date createdAt, Boolean teamStatus){
-        this.teamName = teamName;
-        this.createdAt = createdAt;
-        this.teamStatus = teamStatus;
-    }*/
 
     public int getTeamId() {
         return teamId;

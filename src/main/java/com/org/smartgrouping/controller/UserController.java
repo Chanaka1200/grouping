@@ -151,7 +151,7 @@ public class UserController {
      *
      * @author Chanaka Bandara
      */
-    @RequestMapping(value = "findUsersById", method = RequestMethod.GET)
+    @RequestMapping(value = "findUsersById/{id}", method = RequestMethod.GET)
     public void findUsersById(@PathVariable int id, HttpServletResponse httpservletResponse, HttpServletRequest httpServletRequest) {
         if (log.isDebugEnabled()) {
             log.debug("UserController findAllUsers method  get all users data");

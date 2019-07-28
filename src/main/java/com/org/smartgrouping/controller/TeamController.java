@@ -120,7 +120,7 @@ public class TeamController {
      *
      * @author Chanaka Bandara
      */
-    @RequestMapping(value = "findTeamsById", method = RequestMethod.GET)
+    @RequestMapping(value = "findTeamsById/{id}", method = RequestMethod.GET)
     public void findTeamsById(@PathVariable int id, HttpServletResponse httpservletResponse, HttpServletRequest httpServletRequest) {
         if (log.isDebugEnabled()) {
             log.debug("TeamController findAllTeams method  get all teams data");
