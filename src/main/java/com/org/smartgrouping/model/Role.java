@@ -1,5 +1,7 @@
 package com.org.smartgrouping.model;
 
+import org.omg.CORBA.UserException;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -18,6 +20,12 @@ public class Role implements Serializable {
 
     @ManyToMany(mappedBy = "roleResources")
     Set<Resource> resources = new HashSet<>();
+
+    @ManyToMany(mappedBy = "userRoles")
+    Set<User> users = new HashSet<>();
+
+    @ManyToMany(mappedBy = "teamRoles")
+    Set<Team> teams = new HashSet<>();
 
     public int getRoleId() {
         return roleId;
@@ -41,5 +49,21 @@ public class Role implements Serializable {
 
     public void setResources(Set<Resource> resources) {
         this.resources = resources;
+    }
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
+
+    public Set<Team> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(Set<Team> teams) {
+        this.teams = teams;
     }
 }

@@ -31,6 +31,20 @@ public class Team implements Serializable {
     @ManyToMany(mappedBy = "userTeams")
     Set<User> users = new HashSet<>();
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "team_service",
+            joinColumns = @JoinColumn(name = "team_id", referencedColumnName = "team_id"),
+            inverseJoinColumns = @JoinColumn(name = "service_id", referencedColumnName = "service_id"))
+    private Set<Service> teamServices = new HashSet<>();
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "team_role",
+            joinColumns = @JoinColumn(name = "team_id", referencedColumnName = "team_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id"))
+    private Set<Role> teamRoles = new HashSet<>();
+
     public int getTeamId() {
         return teamId;
     }
@@ -69,5 +83,21 @@ public class Team implements Serializable {
 
     public void setUsers(Set<User> users) {
         this.users = users;
+    }
+
+    public Set<Service> getTeamServices() {
+        return teamServices;
+    }
+
+    public void setTeamServices(Set<Service> teamServices) {
+        this.teamServices = teamServices;
+    }
+
+    public Set<Role> getTeamRoles() {
+        return teamRoles;
+    }
+
+    public void setTeamRoles(Set<Role> teamRoles) {
+        this.teamRoles = teamRoles;
     }
 }
