@@ -16,7 +16,7 @@ import java.util.stream.Stream;
  * @author Chanaka Bandara
  */
 @Entity
-@Table(name = "users")
+@Table(name = "user")
 public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,6 +49,13 @@ public class User implements Serializable {
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "team_id", referencedColumnName = "team_id"))
     private Set<Team> userTeams = new HashSet<>();
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id"))
+    private Set<Role> userRoles = new HashSet<>();
 
     public int getUserId() {
         return userId;
@@ -112,5 +119,13 @@ public class User implements Serializable {
 
     public void setUserTeams(Set<Team> userTeams) {
         this.userTeams = userTeams;
+    }
+
+    public Set<Role> getUserRoles() {
+        return userRoles;
+    }
+
+    public void setUserRoles(Set<Role> userRoles) {
+        this.userRoles = userRoles;
     }
 }

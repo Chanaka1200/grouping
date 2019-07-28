@@ -2,6 +2,8 @@ package com.org.smartgrouping.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "service")
@@ -20,6 +22,9 @@ public class Service implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id")
     private Category category;
+
+    @ManyToMany(mappedBy = "teamServices")
+    Set<Team> teams = new HashSet<>();
 
     public int getServiceId() {
         return serviceId;
@@ -51,5 +56,13 @@ public class Service implements Serializable {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public Set<Team> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(Set<Team> teams) {
+        this.teams = teams;
     }
 }

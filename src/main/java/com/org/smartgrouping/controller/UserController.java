@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.gson.Gson;
 import com.org.smartgrouping.model.Team;
 import com.org.smartgrouping.model.User;
+import com.org.smartgrouping.model.UserRoleWrapper;
 import com.org.smartgrouping.service.UserService;
 import com.org.smartgrouping.util.JsonFileObjectUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,16 +100,46 @@ public class UserController {
      * @author Chanaka Bandara
      *
      */
-    @RequestMapping(value = "assign", method = RequestMethod.POST)
+    @RequestMapping(value = "subscribeTeam", method = RequestMethod.POST)
     @ResponseBody
-    public String assignUser(@ModelAttribute User user, @ModelAttribute Team team){
+    public String subscribeTeam(@ModelAttribute User user, @ModelAttribute Team team){
         if (log.isDebugEnabled()) {
-            log.debug("UserController assignUser method save and update user and team composite");
+            log.debug("UserController subscribeTeam method subscribe teams");
         }
         String saveMsg = "";
         Boolean saveStatus = false;
         try {
-            saveStatus = userService.assignUser(user, team);
+            saveStatus = userService.subscribeTeam(user, team);
+            if (saveStatus) {
+                saveMsg = "Save Success";
+            } else if (!saveStatus) {
+                saveMsg = "Save error";
+            }
+        } catch (Exception e) {
+            log.error("error  occurred by assignUser in UserController " + e);
+            saveMsg = "error occurred by" + e;
+        }
+        return saveMsg;
+    }
+    /**
+     * Date :2019-07-18. This method used for assign team and user data using CrudRepository
+     * in springframework
+     *
+     * @param userRoleWrapper
+     * @return saveMsg
+     * @author Chanaka Bandara
+     *
+     */
+    @RequestMapping(value = "subscribeRole", method = RequestMethod.POST)
+    @ResponseBody
+    public String subscribeRole(@RequestBody UserRoleWrapper userRoleWrapper){
+        if (log.isDebugEnabled()) {
+            log.debug("UserController subscribeTeam method subscribe teams");
+        }
+        String saveMsg = "";
+        Boolean saveStatus = false;
+        try {
+            saveStatus = userService.subscribeRole(userRoleWrapper);
             if (saveStatus) {
                 saveMsg = "Save Success";
             } else if (!saveStatus) {

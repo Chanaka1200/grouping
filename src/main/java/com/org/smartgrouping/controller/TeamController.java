@@ -4,17 +4,22 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.gson.Gson;
+import com.org.smartgrouping.model.ServiceTeamWrapper;
 import com.org.smartgrouping.model.Team;
+import com.org.smartgrouping.model.TeamRoleWrapper;
 import com.org.smartgrouping.service.TeamService;
 import com.org.smartgrouping.util.JsonFileObjectUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
+
 /**
  * Date :2019-07-16. This class process the Team Live crud operation
  * controller class
@@ -55,6 +60,64 @@ public class TeamController {
             }
         } catch (Exception e) {
             log.error("error  occurred by saveTeam in TeamController " + e);
+            saveMsg = "error occurred by" + e;
+        }
+        return saveMsg;
+    }
+    /**
+     * Date :2019-07-16. This method used for save team data using CrudRepository
+     * in springframework
+     *
+     * @return saveMsg
+     * @author Chanaka Bandara
+     *
+     */
+    @RequestMapping(value = "subscribeService", method = RequestMethod.POST)
+    @ResponseBody
+    public String subscribeService(@RequestBody ServiceTeamWrapper serviceTeamWrapper){
+        if (log.isDebugEnabled()) {
+            log.debug("TeamController subscribeService method subscribe services for team");
+        }
+        String saveMsg = "";
+        Boolean saveStatus = false;
+        try {
+            saveStatus = teamService.subscribeService(serviceTeamWrapper);
+            if (saveStatus) {
+                saveMsg = "Save Success";
+            } else if (!saveStatus) {
+                saveMsg = "Save error";
+            }
+        } catch (Exception e) {
+            log.error("error  occurred by subscribeService in TeamController " + e);
+            saveMsg = "error occurred by" + e;
+        }
+        return saveMsg;
+    }
+    /**
+     * Date :2019-07-16. This method used for save team data using CrudRepository
+     * in springframework
+     *
+     * @return saveMsg
+     * @author Chanaka Bandara
+     *
+     */
+    @RequestMapping(value = "subscribeTeamRole", method = RequestMethod.POST)
+    @ResponseBody
+    public String subscribeRole(@RequestBody TeamRoleWrapper teamRoleWrapper){
+        if (log.isDebugEnabled()) {
+            log.debug("TeamController subscribeRole method subscribe roles for team");
+        }
+        String saveMsg = "";
+        Boolean saveStatus = false;
+        try {
+            saveStatus = teamService.subscribeRole(teamRoleWrapper);
+            if (saveStatus) {
+                saveMsg = "Save Success";
+            } else if (!saveStatus) {
+                saveMsg = "Save error";
+            }
+        } catch (Exception e) {
+            log.error("error  occurred by subscribeRole in TeamController " + e);
             saveMsg = "error occurred by" + e;
         }
         return saveMsg;

@@ -1,9 +1,13 @@
 package com.org.smartgrouping.service;
 
+import com.org.smartgrouping.model.Role;
 import com.org.smartgrouping.model.Team;
 import com.org.smartgrouping.model.User;
+import com.org.smartgrouping.model.UserRoleWrapper;
+import com.org.smartgrouping.repository.RoleRepository;
 import com.org.smartgrouping.repository.TeamRepository;
 import com.org.smartgrouping.repository.UserRepository;
+import org.hibernate.annotations.NaturalId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +33,8 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private TeamRepository teamRepository;
+    @Autowired
+    private RoleRepository roleRepository;
     /**
      * saveUser method is get all data in User updated data
      *
@@ -49,18 +55,18 @@ public class UserService {
         return saveStatus;
     }
     /**
-     * assignUser method is compisite date team and user
+     * subscribeTeam method is subscribe teams
      *
-     * @param user
+     * @param user, team
      * @return userList
      */
-    public Boolean assignUser(User user, Team team) throws Exception {
+    public Boolean subscribeTeam(User user, Team team) throws Exception {
         if (log.isDebugEnabled()) {
-            log.debug("UserService saveUser method calling.");
+            log.debug("UserService subscribeTeam method calling.");
         }
         Boolean saveStatus = false;
         if (log.isDebugEnabled()) {
-            log.debug("UserService saveUser method save new User.Existing User to the database.");
+            log.debug("UserService subscribeTeam method save new User.Subscribe team.");
         }
 
         User users = new User();
@@ -70,13 +76,40 @@ public class UserService {
         users.setCreatedDate(user.getCreatedDate());
         users.setUserStatus(user.getUserStatus());
 
-        Team teams = new Team();
+/*        Team teams = new Team();
         teams.setTeamName(team.getTeamName());
         teams.setCreatedAt(team.getCreatedAt());
-        teams.setTeamStatus(team.getTeamStatus());
+        teams.setTeamStatus(team.getTeamStatus());*/
+        Team team1 = teamRepository.findById(team.getTeamId()).get();
 
-        users.getUserTeams().add(teams);
+        users.getUserTeams().add(team1);
         userRepository.save(users);
+
+        saveStatus = true;
+        return saveStatus;
+    }
+    /**
+     * subscribeRole method is subscribe roles
+     *
+     * @param userRoleWrapper
+     * @return userList
+     */
+    public Boolean subscribeRole(UserRoleWrapper userRoleWrapper) {
+        if (log.isDebugEnabled()) {
+            log.debug("UserService subscribeRole method calling.");
+        }
+        Boolean saveStatus = false;
+        if (log.isDebugEnabled()) {
+            log.debug("UserService subscribeRole method save new User. And Subscribe roles.");
+        }
+        User user = userRoleWrapper.getUser();
+        List<Role> roles = userRoleWrapper.getRoles();
+        for (Role roleArray : roles){
+            Role role1 = roleRepository.findById(roleArray.getRoleId()).get();
+            user.getUserRoles().add(role1);
+        }
+
+        userRepository.save(user);
 
         saveStatus = true;
         return saveStatus;
