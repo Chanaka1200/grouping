@@ -122,7 +122,7 @@ public class ServiceController {
      *
      * @author Chanaka Bandara
      */
-    @RequestMapping(value = "findServiceById", method = RequestMethod.GET)
+    @RequestMapping(value = "findServiceById/{id}", method = RequestMethod.GET)
     public void findServicesById(@PathVariable int id, HttpServletResponse httpservletResponse, HttpServletRequest httpServletRequest) {
         if (log.isDebugEnabled()) {
             log.debug("ServiceController findServicesById method  get all service data by id");

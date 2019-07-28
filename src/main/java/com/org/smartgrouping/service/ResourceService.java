@@ -3,6 +3,7 @@ package com.org.smartgrouping.service;
 import com.org.smartgrouping.model.Resource;
 import com.org.smartgrouping.model.Role;
 import com.org.smartgrouping.repository.ResourceRepository;
+import com.org.smartgrouping.repository.RoleRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ public class ResourceService {
     private static final Logger log = LoggerFactory.getLogger(ResourceService.class);
     @Autowired
     private ResourceRepository resourceRepository;
+    @Autowired
+    private RoleRepository roleRepository;
     /**
      * saveResource method is get all data in resource updated data
      *
@@ -65,8 +68,7 @@ public class ResourceService {
         Resource resource1 = new Resource();
         resource1.setResourceName(resource.getResourceName());
 
-        Role role1 = new Role();
-        role1.setRoleName(role.getRoleName());
+        Role role1 = roleRepository.findById(role.getRoleId()).get();
 
         resource1.getRoleResources().add(role1);
 

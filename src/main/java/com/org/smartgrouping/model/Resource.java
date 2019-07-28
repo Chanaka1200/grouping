@@ -10,17 +10,17 @@ import java.util.Set;
 public class Resource implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "resources_id")
+    @Column(name = "resource_id")
     private int resourceId;
 
-    @Column(name = "resources_name")
+    @Column(name = "resource_name")
     private String resourceName;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "role_resource",
-            joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id"),
-            inverseJoinColumns = @JoinColumn(name = "resource_id", referencedColumnName = "resource_id"))
+            joinColumns = @JoinColumn(name = "resource_id", referencedColumnName = "resource_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id"))
     private Set<Role> roleResources = new HashSet<>();
 
     public int getResourceId() {

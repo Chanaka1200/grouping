@@ -61,7 +61,7 @@ public class ResourceController {
         }
         return saveMsg;
     }
-    @RequestMapping(value = "assign", method = RequestMethod.POST)
+    @RequestMapping(value = "assignRole", method = RequestMethod.POST)
     @ResponseBody
     public String assignResource(@ModelAttribute Resource resource, @ModelAttribute Role role){
         if (log.isDebugEnabled()) {
@@ -143,7 +143,7 @@ public class ResourceController {
      *
      * @author Chanaka Bandara
      */
-    @RequestMapping(value = "findResourcesById", method = RequestMethod.GET)
+    @RequestMapping(value = "findResourcesById/{id}", method = RequestMethod.GET)
     public void findResourcesById(@PathVariable int id, HttpServletResponse httpservletResponse, HttpServletRequest httpServletRequest) {
         if (log.isDebugEnabled()) {
             log.debug("ResourceController findAllResources method  get all role data");
