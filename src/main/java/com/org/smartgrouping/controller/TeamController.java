@@ -202,5 +202,4 @@ public class TeamController {
                     "{\"message\":\"" + e.getMessage() + "\",\"success\":false}");
         }
     }
-
 }

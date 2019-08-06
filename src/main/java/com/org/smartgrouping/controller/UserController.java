@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.gson.Gson;
+import com.org.smartgrouping.model.Role;
 import com.org.smartgrouping.model.Team;
 import com.org.smartgrouping.model.User;
 import com.org.smartgrouping.model.UserRoleWrapper;
@@ -102,14 +103,14 @@ public class UserController {
      */
     @RequestMapping(value = "subscribeTeam", method = RequestMethod.POST)
     @ResponseBody
-    public String subscribeTeam(@ModelAttribute User user, @ModelAttribute Team team){
+    public String subscribeTeam(@ModelAttribute User user, @ModelAttribute Team team, @ModelAttribute Role role){
         if (log.isDebugEnabled()) {
             log.debug("UserController subscribeTeam method subscribe teams");
         }
         String saveMsg = "";
         Boolean saveStatus = false;
         try {
-            saveStatus = userService.subscribeTeam(user, team);
+            saveStatus = userService.subscribeTeam(user, team, role);
             if (saveStatus) {
                 saveMsg = "Save Success";
             } else if (!saveStatus) {

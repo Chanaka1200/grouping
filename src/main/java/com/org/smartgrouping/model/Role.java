@@ -27,6 +27,9 @@ public class Role implements Serializable {
     @ManyToMany(mappedBy = "teamRoles")
     Set<Team> teams = new HashSet<>();
 
+    @OneToMany(mappedBy = "linkRole", cascade = CascadeType.ALL)
+    private Set<UserTeamRoleLink> userTeamRoleLink;
+
     public int getRoleId() {
         return roleId;
     }
@@ -65,5 +68,13 @@ public class Role implements Serializable {
 
     public void setTeams(Set<Team> teams) {
         this.teams = teams;
+    }
+
+    public Set<UserTeamRoleLink> getUserTeamRoleLink() {
+        return userTeamRoleLink;
+    }
+
+    public void setUserTeamRoleLink(Set<UserTeamRoleLink> userTeamRoleLink) {
+        this.userTeamRoleLink = userTeamRoleLink;
     }
 }

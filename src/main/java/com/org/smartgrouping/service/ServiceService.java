@@ -37,15 +37,15 @@ public class ServiceService {
         if (log.isDebugEnabled()) {
             log.debug("ServiceService saveService method save new service to the database.");
         }
-        Service service1 = new Service();
-        service1.setServiceName(service.getServiceName());
-        service1.setServiceStatus(service.getServiceStatus());
+        Service services = new Service();
+        services.setServiceName(service.getServiceName());
+        services.setServiceStatus(service.getServiceStatus());
 
-        Category category1 =  categoryRepository.findById(category.getCategoryId()).get();
+        Category categorys =  categoryRepository.findById(category.getCategoryId()).get();
 
-        service1.setCategory(category1);
-        category1.getService().add(service1);
-        serviceRepository.save(service1);
+        services.setCategory(categorys);
+        categorys.getService().add(services);
+        serviceRepository.save(services);
         saveStatus = true;
         return saveStatus;
     }

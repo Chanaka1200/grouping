@@ -1,9 +1,6 @@
 package com.org.smartgrouping.service;
 
-import com.org.smartgrouping.model.Role;
-import com.org.smartgrouping.model.Team;
-import com.org.smartgrouping.model.User;
-import com.org.smartgrouping.model.UserRoleWrapper;
+import com.org.smartgrouping.model.*;
 import com.org.smartgrouping.repository.RoleRepository;
 import com.org.smartgrouping.repository.TeamRepository;
 import com.org.smartgrouping.repository.UserRepository;
@@ -60,7 +57,7 @@ public class UserService {
      * @param user, team
      * @return userList
      */
-    public Boolean subscribeTeam(User user, Team team) throws Exception {
+    public Boolean subscribeTeam(User user, Team team, Role role) throws Exception {
         if (log.isDebugEnabled()) {
             log.debug("UserService subscribeTeam method calling.");
         }
@@ -80,9 +77,17 @@ public class UserService {
         teams.setTeamName(team.getTeamName());
         teams.setCreatedAt(team.getCreatedAt());
         teams.setTeamStatus(team.getTeamStatus());*/
-        Team team1 = teamRepository.findById(team.getTeamId()).get();
+        Team subscribeTeam = teamRepository.findById(team.getTeamId()).get();
 
-        users.getUserTeams().add(team1);
+        Role relatedRole = roleRepository.findById(role.getRoleId()).get();
+
+        UserTeamRoleLink userTeamRoleLink = new UserTeamRoleLink();
+        userTeamRoleLink.setLinkUser(users);
+        userTeamRoleLink.setLinkTeam(subscribeTeam);
+        userTeamRoleLink.setLinkRole(relatedRole);
+
+        users.getUserTeamRoleLink().add(userTeamRoleLink);
+        //users.getUserTeams().add(team1);
         userRepository.save(users);
 
         saveStatus = true;
