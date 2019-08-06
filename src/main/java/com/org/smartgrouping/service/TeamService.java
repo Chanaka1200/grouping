@@ -62,8 +62,8 @@ public class TeamService {
         Team team = serviceTeamWrapper.getTeam();
         List<Service> service = serviceTeamWrapper.getServices();
         for (Service serviceArray : service){
-            Service service1 = serviceRepository.findById(serviceArray.getServiceId()).get();
-            team.getTeamServices().add(service1);
+            Service subscribeService = serviceRepository.findById(serviceArray.getServiceId()).get();
+            team.getTeamServices().add(subscribeService);
         }
         teamRepository.save(team);
         saveStatus = true;

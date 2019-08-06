@@ -56,6 +56,12 @@ public class ResourceService {
         saveStatus = true;
         return saveStatus;
     }
+    /**
+     * assignResource method is assing resources data
+     *
+     * @param resource, role
+     * @return saveStatus
+     */
     public Boolean assignResource(Resource resource, Role role) {
         if (log.isDebugEnabled()) {
             log.debug("ResourceService assignResource method calling.");
@@ -65,14 +71,14 @@ public class ResourceService {
             log.debug("ResourceService assignResource method assign role to resource.");
         }
 
-        Resource resource1 = new Resource();
-        resource1.setResourceName(resource.getResourceName());
+        Resource assingResource = new Resource();
+        assingResource.setResourceName(resource.getResourceName());
 
-        Role role1 = roleRepository.findById(role.getRoleId()).get();
+        Role assingRole = roleRepository.findById(role.getRoleId()).get();
 
-        resource1.getRoleResources().add(role1);
+        assingResource.getRoleResources().add(assingRole);
 
-        resourceRepository.save(resource1);
+        resourceRepository.save(assingResource);
         saveStatus = true;
         return saveStatus;
 

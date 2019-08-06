@@ -61,6 +61,15 @@ public class ResourceController {
         }
         return saveMsg;
     }
+    /**
+     * Date :2019-07-18. This method used for assign role data using CrudRepository
+     * in springframework
+     *
+     * @param resource, role
+     * @return saveMsg
+     * @author Chanaka Bandara
+     *
+     */
     @RequestMapping(value = "assignRole", method = RequestMethod.POST)
     @ResponseBody
     public String assignResource(@ModelAttribute Resource resource, @ModelAttribute Role role){

@@ -28,8 +28,11 @@ public class Team implements Serializable {
     @Column(name = "team_status")
     private Boolean teamStatus;
 
-    @ManyToMany(mappedBy = "userTeams")
-    Set<User> users = new HashSet<>();
+   /* @ManyToMany(mappedBy = "userTeams")
+    Set<User> users = new HashSet<>();*/
+
+    @OneToMany(mappedBy = "linkTeam", cascade = CascadeType.ALL)
+    private Set<UserTeamRoleLink> userTeamRoleLink;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
@@ -77,12 +80,20 @@ public class Team implements Serializable {
         this.teamStatus = teamStatus;
     }
 
-    public Set<User> getUsers() {
+    /*public Set<User> getUsers() {
         return users;
     }
 
     public void setUsers(Set<User> users) {
         this.users = users;
+    }*/
+
+    public Set<UserTeamRoleLink> getUserTeamRoleLink() {
+        return userTeamRoleLink;
+    }
+
+    public void setUserTeamRoleLink(Set<UserTeamRoleLink> userTeamRoleLink) {
+        this.userTeamRoleLink = userTeamRoleLink;
     }
 
     public Set<Service> getTeamServices() {

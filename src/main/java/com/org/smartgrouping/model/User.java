@@ -43,12 +43,15 @@ public class User implements Serializable {
     @Column(name = "user_status")
     private Boolean userStatus;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    /*@ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "user_team",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "team_id", referencedColumnName = "team_id"))
-    private Set<Team> userTeams = new HashSet<>();
+    private Set<Team> userTeams = new HashSet<>();*/
+
+    @OneToMany(mappedBy = "linkUser", cascade = CascadeType.ALL)
+    private Set<UserTeamRoleLink> userTeamRoleLink;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
@@ -113,12 +116,20 @@ public class User implements Serializable {
         this.userStatus = userStatus;
     }
 
-    public Set<Team> getUserTeams() {
+    /*public Set<Team> getUserTeams() {
         return userTeams;
     }
 
     public void setUserTeams(Set<Team> userTeams) {
         this.userTeams = userTeams;
+    }*/
+
+    public Set<UserTeamRoleLink> getUserTeamRoleLink() {
+        return userTeamRoleLink;
+    }
+
+    public void setUserTeamRoleLink(Set<UserTeamRoleLink> userTeamRoleLink) {
+        this.userTeamRoleLink = userTeamRoleLink;
     }
 
     public Set<Role> getUserRoles() {
