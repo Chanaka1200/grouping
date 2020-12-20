@@ -12,7 +12,10 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: ${{matrix.os}}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest,macOS-latest]
 
     steps:
     - uses: actions/checkout@v2
@@ -22,3 +25,8 @@ jobs:
         java-version: 1.8
     - name: Build with Maven
       run: mvn -B package --file pom.xml
+      
+  publish:
+    
+      needs: build
+  
