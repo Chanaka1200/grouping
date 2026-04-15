@@ -19,7 +19,6 @@ endpoints:
       port: 4317
     networkVisibilities:
       - Project
-      - Public
 
   - name: otel-http
     displayName: OTLP HTTP Receiver
