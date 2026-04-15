@@ -10,7 +10,7 @@ endpoints:
     networkVisibilities:
       - Project
       - Public
-  
+
   - name: grpcreceiver
     displayName: OTLP gRPC Receiver
     type: GRPC
@@ -19,7 +19,7 @@ endpoints:
       port: 4317
     networkVisibilities:
       - Project
-  
+
   - name: httpreceiver
     displayName: OTLP HTTP Receiver
     type: REST
@@ -28,4 +28,3 @@ endpoints:
       port: 4318
     networkVisibilities:
       - Project
-      - Public
