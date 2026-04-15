@@ -1,0 +1,29 @@
+schemaVersion: 1.1
+
+endpoints:
+  - name: grafana
+    displayName: Grafana Dashboard
+    service:
+      basePath: /
+      port: 3000
+      type: REST
+    networkVisibilities:
+      - Organization
+
+  - name: otel-grpc
+    displayName: OTLP gRPC Receiver
+    service:
+      basePath: /
+      port: 4317
+      type: GRPC
+    networkVisibilities:
+      - Project
+
+  - name: otel-http
+    displayName: OTLP HTTP Receiver
+    service:
+      basePath: /
+      port: 4318
+      type: REST
+    networkVisibilities:
+      - Project
