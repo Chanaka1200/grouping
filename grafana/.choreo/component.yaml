@@ -1,0 +1,12 @@
+schemaVersion: 1.2
+
+endpoints:
+  - name: grafana
+    displayName: Grafana Dashboard
+    type: REST
+    service:
+      basePath: /
+      port: 3000
+    networkVisibilities:
+      - Project
+      - Public
