@@ -40,4 +40,4 @@ service:
     logs:
       receivers: [otlp]
       processors: [resource]
-      exporters: [debug, otlphttp]
+      exporters: [debug, otlp_http]
