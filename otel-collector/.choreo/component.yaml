@@ -25,6 +25,6 @@ endpoints:
     type: REST
     service:
       basePath: /
-      port: 4319
+      port: 4318
     networkVisibilities:
       - Project
