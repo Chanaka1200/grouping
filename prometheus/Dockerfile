@@ -1,8 +1,10 @@
 FROM --platform=linux/amd64 prom/prometheus:v2.54.1
 
+USER root
+
 COPY prometheus.yml /etc/prometheus/prometheus.yml
 
-RUN mkdir -p /prometheus && chown -R 10001:10001 /prometheus
+RUN mkdir -p /tmp/prometheus && chown -R 10001:10001 /tmp/prometheus
 
 EXPOSE 9090
 
