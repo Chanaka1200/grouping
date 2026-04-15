@@ -6,8 +6,8 @@ COPY grafana-datasources.yml /etc/grafana/provisioning/datasources/datasources.y
 COPY grafana-dashboards.yml /etc/grafana/provisioning/dashboards/dashboards.yml
 COPY claude-code-dashboard.json /var/lib/grafana/dashboards/claude-code-dashboard.json
 
-RUN mkdir -p /var/lib/grafana/dashboards && \
-    chown -R 10001:10001 /var/lib/grafana /etc/grafana
+RUN mkdir -p /var/lib/grafana/dashboards /tmp/grafana/logs /tmp/grafana/plugins && \
+    chown -R 10001:10001 /var/lib/grafana /etc/grafana /tmp/grafana
 
 ENV GF_SECURITY_ADMIN_PASSWORD=admin
 ENV GF_USERS_ALLOW_SIGN_UP=false
@@ -15,6 +15,7 @@ ENV GF_FEATURE_TOGGLES_ENABLE=logsSampleInExplore
 ENV GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH=/var/lib/grafana/dashboards/claude-code-dashboard.json
 ENV GF_PATHS_DATA=/tmp/grafana
 ENV GF_PATHS_LOGS=/tmp/grafana/logs
+ENV GF_PATHS_PLUGINS=/tmp/grafana/plugins
 
 EXPOSE 3000
 
