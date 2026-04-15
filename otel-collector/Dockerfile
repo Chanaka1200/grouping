@@ -1,17 +1,7 @@
-FROM --platform=linux/amd64 otel/opentelemetry-collector-contrib:0.116.0 AS source
+FROM otel/opentelemetry-collector-contrib:latest
 
-FROM --platform=linux/amd64 alpine:3.20
-
-RUN apk add --no-cache ca-certificates wget
-
-COPY --from=source /otelcol-contrib /otelcol-contrib
 COPY collector-config.yaml /etc/otel/collector-config.yaml
 
-EXPOSE 4317
-EXPOSE 4318
-EXPOSE 8889
+CMD ["--config=/etc/otel/collector-config.yaml"]
 
 USER 10014
-
-ENTRYPOINT ["/otelcol-contrib"]
-CMD ["--config=/etc/otel/collector-config.yaml"]
