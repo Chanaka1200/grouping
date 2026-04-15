@@ -28,4 +28,3 @@ endpoints:
       port: 4319
     networkVisibilities:
       - Project
-      - Public

@@ -6,7 +6,7 @@ datasources:
     access: proxy
     # UPDATE: Set PROMETHEUS_URL as Choreo env variable
     # Choreo internal URL format: http://<project>--<component>--<endpoint>.<namespace>:9090
-    url: ${PROMETHEUS_URL:-http://prometheus:9090}
+    url: http://prometheus-18368231:9090
     isDefault: true
 
   - name: loki
@@ -14,4 +14,4 @@ datasources:
     access: proxy
     # UPDATE: Set LOKI_URL as Choreo env variable
     # Choreo internal URL format: http://<project>--<component>--<endpoint>.<namespace>:3100
-    url: ${LOKI_URL:-http://loki:3100}
+    url: http://loki-706767408:3100
