@@ -8,25 +8,24 @@ endpoints:
       basePath: /
       port: 3000
     networkVisibilities:
-      - Organization
+      - Project
       - Public
   
-  - name: OTLPgRPCReceiver
+  - name: grpcreceiver
     displayName: OTLP gRPC Receiver
     type: GRPC
     service:
       basePath: /
       port: 4317
     networkVisibilities:
-      - Organization
-      - Public
+      - Project
   
-  - name: OTLPHTTPReceiver
+  - name: httpreceiver
     displayName: OTLP HTTP Receiver
     type: REST
     service:
       basePath: /
       port: 4318
     networkVisibilities:
-      - Organization
+      - Project
       - Public
