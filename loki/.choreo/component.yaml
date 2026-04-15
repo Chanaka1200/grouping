@@ -9,3 +9,4 @@ endpoints:
       port: 3100
     networkVisibilities:
       - Project
+      - Public

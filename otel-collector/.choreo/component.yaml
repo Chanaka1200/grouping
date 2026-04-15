@@ -9,6 +9,7 @@ endpoints:
       port: 8889
     networkVisibilities:
       - Project
+      - Public
 
   - name: otel-grpc
     displayName: OTLP gRPC Receiver
@@ -18,6 +19,7 @@ endpoints:
       port: 4317
     networkVisibilities:
       - Project
+      - Public
 
   - name: otel-http
     displayName: OTLP HTTP Receiver
@@ -27,3 +29,4 @@ endpoints:
       port: 4318
     networkVisibilities:
       - Project
+      - Public
