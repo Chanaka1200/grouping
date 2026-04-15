@@ -23,7 +23,7 @@ exporters:
   # Loki endpoint - update LOKI_ENDPOINT in Choreo env config
   # Choreo internal URL format: http://<project>--<component>--<endpoint>.<namespace>:3100
   otlphttp:
-    endpoint: ${env:LOKI_ENDPOINT}
+    endpoint: http://loki-706767408:3100/
 
 extensions:
   health_check:
